@@ -1,6 +1,6 @@
 from flask_restful import reqparse, fields, abort
 from ...models import Task
-from...extensions import db
+from ...extensions import db
 
 task_fields_post = {
     # 'id' : fields.Integer,
@@ -15,6 +15,8 @@ task_fields_get = {
     'status' : fields.String,
     'created_date' : fields.DateTime,
 }
+
+# (dt_format='iso8601')
 
 task_args = reqparse.RequestParser()
 task_args.add_argument('title', type=str, required=True, help='Title is required (don\'t use only numbers).')

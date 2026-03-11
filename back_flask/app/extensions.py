@@ -1,6 +1,7 @@
 # Base de datos
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import DeclarativeBase
+import pytz
 
 class Base(DeclarativeBase) :
     pass
@@ -14,3 +15,4 @@ cors = CORS(resources={
             'origins' : '*'
         }
     })
+
