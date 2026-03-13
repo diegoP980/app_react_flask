@@ -3,9 +3,14 @@ from ...models import Task
 from ...extensions import db
 
 task_fields_post = {
-    # 'id' : fields.Integer,
     'title' : fields.String,
     'description' : fields.String,
+}
+
+task_fields_patch = {
+    'title' : fields.String,
+    'description' : fields.String,
+    'status' : fields.String,
 }
 
 task_fields_get = {
@@ -21,6 +26,7 @@ task_fields_get = {
 task_args = reqparse.RequestParser()
 task_args.add_argument('title', type=str, required=True, help='Title is required (don\'t use only numbers).')
 task_args.add_argument('description', type=str)
+task_args.add_argument('status', type=str)
 
 def not_found (req, id) :
     if not req :
@@ -55,6 +61,7 @@ def update_task(id) :
         
     task.title = data['title']
     task.description = data['description']
+    task.status = data['status']
     db.session.commit()
         
     task_list = Task.query.all()

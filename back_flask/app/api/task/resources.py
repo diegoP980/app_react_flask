@@ -17,7 +17,7 @@ class TaskCreate(Resource) :
         return create_task()
     
 class TaskUpdate(Resource) :
-    @marshal_with(task_fields_post)
+    @marshal_with(task_fields_patch)
     def patch(self, task_id) :
         return update_task(task_id)
     

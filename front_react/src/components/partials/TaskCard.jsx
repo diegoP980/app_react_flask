@@ -1,27 +1,23 @@
-function TaskCard({ task }) {
-    const dateFormat = (taskDate) => {
-        const options = {
-            dateStyle: "full",
-            timeStyle: "short",
-        }
+import { dateFormat } from "../../utils/functions";
 
-        let dateTime = new Date(taskDate)
-
-        return dateTime.toLocaleString("es-PE", options)
-    }
-
-    const { title, description, created_date } = task
+function TaskCard({ task, modalId, onButtonClick, taskStatus }) {
+    const { title, description, created_date, status } = task;
 
     return (
         <>
-            <div className="col-12">
+            <div className="col-12 mb-4">
                 <div className="card">
                     <div className="card-body">
-                        <h5 className="card-title">{title}</h5>
-                        <h6 class="card-subtitle mb-2 text-body-secondary">Creado el {dateFormat(created_date)}</h6>
-                        <p className="card-text">{description}</p>
-                        <a href="#" className="btn btn-secondary me-2">Editar</a>
-                        <a href="#" className="btn btn-success">Completada!</a>
+                        <h5 className="card-title mb-0">{title}</h5>
+                        <small className="fst-italic text-secondary">Creado el {dateFormat(created_date)}</small>
+                        <p className="card-text mt-2">{description == "No description." ? "" : description}</p>
+                        <div className="d-flex justify-content-between align-items-center">
+                            <div>
+                                <a href="#" className="btn btn-secondary me-2">Editar</a>
+                                <button type="button" className="btn btn-outline-primary" onClick={() => {onButtonClick(task)}}>Detalles</button>
+                            </div>
+                            <p className={`mb-0 text-${taskStatus(status)}`}>● {status}</p>
+                        </div>
                     </div>
                 </div>
             </div>

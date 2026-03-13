@@ -1,4 +1,4 @@
-import { taskLoader } from "../loaders/taskLoader";
+import { taskListLoader } from "../loaders/taskLoader";
 import NavBar from "./partials/navbar";
 import TaskList from "./TaskList";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
@@ -18,7 +18,7 @@ function Base() {
         {
             path: "/",
             element: <Layout />,
-            loader : taskLoader
+            loader : taskListLoader
         }
     ])
 

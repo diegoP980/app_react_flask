@@ -1,21 +1,32 @@
 import { useLoaderData } from "react-router-dom";
+import { useState } from "react";
 import TaskCard from "./partials/TaskCard";
+import TaskModal from "./partials/modal";
+import { setStatus } from "../utils/functions";
 
 function TaskList() {
+    const [selectedTask, setSelectedTask] = useState(null)
     const tasks = useLoaderData() ?? [];
-    console.log(tasks);
+    const modalId = "taskModal";
+    // const task = 
+    // console.log(tasks);
+
+    // const handleOpenModal = (uniqueTask) => {
+    //     setSelectedTask(uniqueTask);
+    // }
 
     return (
         <>
-            <div className="container">
+            <div className="container mt-4">
                 <div className="row">
                     {
                         tasks.map((task) => (
-                            <TaskCard key={task.id} task={task} />
+                            <TaskCard key={task.id} task={task} modalId={`#${modalId}`} onButtonClick={setSelectedTask} taskStatus={setStatus} />
                         ))
                     }
                 </div>
             </div>
+            {selectedTask && (<TaskModal task={selectedTask} taskStatus={setStatus} onClose={() => setSelectedTask(null)} />)}
         </>
     )
 }
