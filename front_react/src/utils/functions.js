@@ -10,7 +10,7 @@ const dateFormat = (taskDate) => {
 }
 
 const setStatus = (status) => {
-    return status == "Complete" ? "success" : "danger";
+    return status == "Complete" || status == "Completed" ? "success" : "danger";
 }
 
 const showSuccessButton = (taskStatus, successBtn) => {

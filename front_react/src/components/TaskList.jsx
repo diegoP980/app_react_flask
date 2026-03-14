@@ -17,7 +17,7 @@ function TaskList() {
 
     return (
         <>
-            <div className="container mt-4">
+            <div className="container" style={{ marginTop: 70 }}>
                 <div className="row">
                     {
                         tasks.map((task) => (

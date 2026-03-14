@@ -1,13 +1,41 @@
+import { useFetcher } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { dateFormat, showSuccessButton } from "../../utils/functions";
 
 function TaskModal({ task, taskStatus, onClose }) {
     const [show, setShow] = useState(false);
+    const fetcher = useFetcher();
 
     const theTaskStatus = taskStatus(task.status);
+
+    const handleComplete = () => {
+
+        fetcher.submit(
+            {
+                title: task.title,
+                description: task.description,
+                status: "Completed" 
+            },
+            {
+                method: "post",
+                action: `/task/${task.id}/update`
+            }
+        );
+
+    };
+
     const successBtn = (
-        <button type="button" className="btn btn-outline-success btn-sm">Marcar como completada</button>
-    )
+        <button
+            type="button"
+            className="btn btn-outline-success btn-sm"
+            onClick={handleComplete}
+            disabled={fetcher.state === "submitting"}
+        >
+            {fetcher.state === "submitting"
+                ? "Actualizando..."
+                : "Marcar como completada"}
+        </button>
+    );
 
     // fade in
     useEffect(() => {

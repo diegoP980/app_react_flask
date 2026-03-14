@@ -31,3 +31,43 @@ export async function getTask(id) {
     }
 }
 
+export const createTask = async (data) => {
+    try {
+        const response = await fetch(`${API_URL}/task/create`,{
+            method: "POST",
+            headers: {
+                "Content-type" : "application/json"
+            },
+            body: JSON.stringify(data)
+        });
+
+        if (!response.ok) {
+            throw new Error("No se pudieron subir los datos.");
+        }
+
+        return await response.json();
+    } catch (error) {
+        throw new Error(`Ocurrio un error: ${error}`);
+    }
+}
+
+export const updateTask = async (data, id) => {
+    try {
+        const response = await fetch(`${API_URL}/task/update/${id}`, {
+            method: "PATCH",
+            headers: {
+                "Content-type": "application/json"
+            },
+            body: JSON.stringify(data)
+        })
+
+        if (!response.ok) {
+            throw new Error("Error al actualizar la tarea.");
+        }
+
+        return await response.json();
+    } catch (error) {
+        throw new Error(`Ocurrio un error: ${error}`);
+    }
+}
+

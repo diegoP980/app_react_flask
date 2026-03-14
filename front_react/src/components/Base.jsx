@@ -1,14 +1,18 @@
 import { taskListLoader } from "../loaders/taskLoader";
+import { createTaskAction, updateTaskAction } from "../loaders/taskAction";
+import CreateTask from "./CreateTask";
 import NavBar from "./partials/navbar";
 import TaskList from "./TaskList";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
 
 
 function Layout() {
     return (
         <>
             <NavBar />
-            <TaskList />
+            <main>
+                <Outlet />
+            </main>
         </>
     )
 }
@@ -18,7 +22,22 @@ function Base() {
         {
             path: "/",
             element: <Layout />,
-            loader : taskListLoader
+            children: [
+                {
+                    index: true,
+                    element: <TaskList />,
+                    loader: taskListLoader
+                },
+                {
+                    path: "create",
+                    element: <CreateTask />,
+                    action: createTaskAction
+                },
+                {
+                    path: "task/:id/update",
+                    action:updateTaskAction
+                }
+            ]
         }
     ])
 
