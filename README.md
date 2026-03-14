@@ -15,6 +15,7 @@
 ### To run the proyect:
 **Run the back-end server:**
 - Open a new terminal within the Flask project path (`cd back_flask`) and write:
+    * `flask init-db` (to initalize the sqlite database)
     * `py ./run.py`
 - The server will run on the following URL (by default): [*https://localhost:5000*](https://localhost:5000)
 
