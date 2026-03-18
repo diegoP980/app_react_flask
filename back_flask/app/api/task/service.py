@@ -2,18 +2,7 @@ from flask_restful import reqparse, fields, abort
 from ...models import Task
 from ...extensions import db
 
-task_fields_post = {
-    'title' : fields.String,
-    'description' : fields.String,
-}
-
-task_fields_patch = {
-    'title' : fields.String,
-    'description' : fields.String,
-    'status' : fields.String,
-}
-
-task_fields_get = {
+task_fields = {
     'id' : fields.Integer,
     'title' : fields.String,
     'description' : fields.String,
@@ -56,11 +45,9 @@ def create_task() :
         
     db.session.add(task)
     db.session.commit()
-    
-    print(task)
         
-    task_list = Task.query.all()
-    return task_list, 201
+    res_response = { "success" : True }
+    return res_response, 201
 
 def update_task(id) :
     data = task_args.parse_args()
@@ -72,8 +59,8 @@ def update_task(id) :
     task.status = data['status']
     db.session.commit()
         
-    task_list = Task.query.all()
-    return task_list
+    res_response = { "success" : True }
+    return res_response
 
 def delete_task(id) :
     task = Task.query.filter_by(id=id).first()
@@ -82,7 +69,7 @@ def delete_task(id) :
     db.session.delete(task)
     db.session.commit()
         
-    task_list = Task.query.all()
-    return task_list
+    res_response = { "success" : True }
+    return res_response
 
 

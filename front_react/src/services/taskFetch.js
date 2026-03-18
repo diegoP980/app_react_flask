@@ -7,8 +7,8 @@ export const taskGetList = async () => {
         if (!response.ok) {
             throw new Error("El recurso solicitado no se encuentra.");
         }
-
-        const data = response.json();
+        const data = await response.json();
+        console.log(data);
         return data;
 
     } catch (error) {
@@ -25,7 +25,7 @@ export async function getTask(id) {
             throw new Error("El recurso solicitado no se encuentra.");
         }
 
-        return data = response.json();
+        return await response.json();
     } catch (error) {
         throw new Error(`Ocurrio un error: ${error}`);
     }
@@ -33,10 +33,10 @@ export async function getTask(id) {
 
 export const createTask = async (data) => {
     try {
-        const response = await fetch(`${API_URL}/task/create`,{
+        const response = await fetch(`${API_URL}/task/create`, {
             method: "POST",
             headers: {
-                "Content-type" : "application/json"
+                "Content-type": "application/json"
             },
             body: JSON.stringify(data)
         });
@@ -47,7 +47,8 @@ export const createTask = async (data) => {
 
         return await response.json();
     } catch (error) {
-        throw new Error(`Ocurrio un error: ${error}`);
+        console.error("Ocurrió un error: ", error);
+        throw error;
     }
 }
 
@@ -67,7 +68,30 @@ export const updateTask = async (data, id) => {
 
         return await response.json();
     } catch (error) {
-        throw new Error(`Ocurrio un error: ${error}`);
+        console.error("Ocurrió un error: ", error);
+        throw error;
+    }
+};
+
+export const deleteTask = async (id) => {
+    try {
+        const response = await fetch(`${API_URL}/task/delete/${id}`, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error(`Error en la respuesta: ${response.status}`);
+        }
+
+        const backResponse = await response.json();
+        console.log(backResponse)
+
+        return backResponse;
+    } catch (error) {
+        console.error("Ocurrió un error: ", error);
+        throw error;
     }
 }
-

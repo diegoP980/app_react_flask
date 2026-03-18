@@ -1,5 +1,5 @@
 import { taskListLoader } from "../loaders/taskLoader";
-import { createTaskAction, updateTaskAction } from "../loaders/taskAction";
+import { createTaskAction, deleteTaskAction, updateTaskAction } from "../loaders/taskAction";
 import CreateTask from "./CreateTask";
 import NavBar from "./partials/navbar";
 import TaskList from "./TaskList";
@@ -36,7 +36,11 @@ function Base() {
                 {
                     path: "task/:id/update",
                     action:updateTaskAction
-                }
+                },
+                {
+                    path: "task/:id/delete",
+                    action:deleteTaskAction
+                },
             ]
         }
     ])

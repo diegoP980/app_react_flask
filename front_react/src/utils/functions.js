@@ -1,20 +1,26 @@
-const dateFormat = (taskDate) => {
-    const options = {
-        dateStyle: "full",
-        timeStyle: "short",
-    }
+const dateFormat = (taskDate, options) => {
+    if (!taskDate) return "";
 
-    let dateTime = new Date(taskDate)
+    const dateTime = new Date(taskDate);
+
+    if (isNaN(dateTime.getTime())) return "";
 
     return dateTime.toLocaleString("es-PE", options)
 }
 
-const setStatus = (status) => {
-    return status == "Complete" || status == "Completed" ? "success" : "danger";
+const setColorStatus = (status) => {
+    return status == "Completed" ? "success" : "danger";
 }
 
 const showSuccessButton = (taskStatus, successBtn) => {
     return taskStatus == "danger" ? successBtn : null;
 }
 
-export {dateFormat, setStatus, showSuccessButton}
+const isEmpty = (iterable) => {
+    if (!Array.isArray(iterable) || iterable.length === 0) {
+        return true;
+    }
+    return false;
+}
+
+export {dateFormat, setColorStatus, showSuccessButton, isEmpty}

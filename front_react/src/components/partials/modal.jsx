@@ -2,36 +2,82 @@ import { useFetcher } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { dateFormat, showSuccessButton } from "../../utils/functions";
 
-function TaskModal({ task, taskStatus, onClose }) {
+function TaskModal({ task, taskColorStatus, onClose }) {
+    /* VARIABLES DE ESTADO */
     const [show, setShow] = useState(false);
+    const [modifying, setModifying] = useState(
+        {
+            isModifying: false,
+            type: null
+        }
+    )
+
+    /* FETCHER PARA MANEJAR SOLICITUDES DINAMICAMENTE */
     const fetcher = useFetcher();
 
-    const theTaskStatus = taskStatus(task.status);
+    /* CAMBIAR EL COLOR DEL ESTADO DE LA TAREA */
+    const theTaskStatus = taskColorStatus(task.status);
 
-    const handleComplete = () => {
-
+    /* MARCAR UNA TAREA COMO COMPLETADA */
+    const handleCompleteTask = () => {
+        setModifying(
+            {
+                isModifying: true,
+                type: "complete"
+            }
+        );
         fetcher.submit(
             {
                 title: task.title,
                 description: task.description,
-                status: "Completed" 
+                status: "Completed"
             },
             {
-                method: "post",
+                method: "PATCH",
                 action: `/task/${task.id}/update`
             }
         );
-
     };
 
+    /* ELIMINACION DINAMICA DE UNA TAREA */
+    const handleDeleteTask = () => {
+        setModifying(
+            {
+                isModifying: true,
+                type: "delete"
+            }
+        );
+        fetcher.submit(
+            {},
+            {
+                method: "DELETE",
+                action: `/task/${task.id}/delete`
+            }
+        )
+    }
+
+    /* MANEJAR EL CIERRE DEL MODAL CUANDO SE REALIZA ALGUN CAMBIO (COMPLETE, DELETE) */
+    useEffect(() => {
+        if (modifying.isModifying && fetcher.state === "idle") {
+            setModifying(
+                {
+                    isModifying: false,
+                    type: null
+                }
+            )
+            handleClose()
+        }
+    }, [fetcher.state])
+
+    /* BOTÓN PARA MARCAR UNA TAREA COMO COMPLETADA */
     const successBtn = (
         <button
             type="button"
             className="btn btn-outline-success btn-sm"
-            onClick={handleComplete}
-            disabled={fetcher.state === "submitting"}
+            onClick={handleCompleteTask}
+            disabled={modifying.type === "complete" && fetcher.state === "submitting"}
         >
-            {fetcher.state === "submitting"
+            {modifying.type === "complete" && fetcher.state === "submitting"
                 ? "Actualizando..."
                 : "Marcar como completada"}
         </button>
@@ -96,7 +142,11 @@ function TaskModal({ task, taskStatus, onClose }) {
 
                             <div className="modal-footer">
                                 <button type="button" className="btn btn-secondary" onClick={handleClose}>Cerrar</button>
-                                <button type="button" className="btn btn-danger">Eliminar</button>
+                                <button type="button" className="btn btn-danger" onClick={handleDeleteTask} disabled={modifying.type === "delete" && fetcher.state === "submitting"}>
+                                    {modifying.type === "delete" && fetcher.state === "submitting"
+                                        ? "Eliminando..."
+                                        : "Eliminar"}
+                                </button>
                             </div>
                         </div>
                     </div>
