@@ -53,7 +53,6 @@ function CreateTask() {
                         <FormLayout fields={fields} form={task} setForm={setTask} />
                     </div>
                     <div className="col-8">
-                        {/* <p className="mb-0 fs-3">Vista previa:</p> */}
                         <div className="w-100 min-vh-100 d-flex align-items-center">
                             <TaskCard task={task} dateOptions={dateOptions}/>
                         </div>

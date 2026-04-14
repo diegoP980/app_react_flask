@@ -12,7 +12,7 @@ function TaskList() {
 
     const alert = {
         header: null,
-        body: "Aún no ha creado ninguna tarea.",
+        body: "Aún no ha creado ningúna tarea.",
         footer: null,
         color: "warning",
         dimiss: false
@@ -23,23 +23,40 @@ function TaskList() {
         timeStyle: "short",
     }
 
-    const noTaskList = (taskList) => {
+    const theresTaskList = (taskList) => {
         if (isEmpty(taskList)) {
-            return <Alert att={alert} />
+            return (
+                <>
+                    <div className="d-flex align-items-center justify-content-center min-vh-100">
+                        <Alert att={alert} />
+                    </div>
+                </>
+            )
         }
         return (
-            tasks.map((taskList) => (
-                <TaskCard key={taskList.id} task={taskList} modalId={`#${modalId}`} onButtonClick={setSelectedTask} taskColorStatus={setColorStatus} dateOptions={dateOptions} />
-            ))
+            <>
+                <div className="row" style={{ marginTop: 70 }}>
+                    {
+                        taskList.map((task) => (
+                            <TaskCard
+                                key={task.id}
+                                task={task}
+                                modalId={`#${modalId}`}
+                                onButtonClick={setSelectedTask}
+                                taskColorStatus={setColorStatus}
+                                dateOptions={dateOptions}
+                            />
+                        ))
+                    }
+                </div>
+            </>
         );
     }
 
     return (
         <>
-            <div className="container" style={{ marginTop: 70 }}>
-                <div className="row">
-                    {noTaskList(tasks)}
-                </div>
+            <div className="container">
+                {theresTaskList(tasks)}
             </div>
             {selectedTask && (<TaskModal task={selectedTask} taskColorStatus={setColorStatus} onClose={() => setSelectedTask(null)} />)}
         </>

@@ -17,7 +17,7 @@ function NavBar() {
                         </ul>
                         <form className='d-flex gap-2 m-0' role='search'>
                             <input className='form-control' type="search" placeholder='Buscar una task...' />
-                            <button className='btn btn-secondary'>Buscar</button>
+                            <button className='btn btn-secondary' disabled>Buscar</button>
                         </form>
                     </div>
                 </nav>

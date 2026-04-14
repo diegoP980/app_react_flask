@@ -10,7 +10,7 @@ function Layout() {
     return (
         <>
             <NavBar />
-            <main>
+            <main className="min-vh-100">
                 <Outlet />
             </main>
         </>
